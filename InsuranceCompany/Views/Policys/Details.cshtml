@@ -1,0 +1,77 @@
+﻿@model InsuranceCompany.Models.Policys
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Подробная информация</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Номер полиса
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PolicyNumber)
+        </dd>
+        <dt>
+            Дата начала
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateBegin)
+        </dd>
+        <dt>
+            Дата окончания
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateEnd)
+        </dd>
+        <dt>
+            Стоимость
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+        <dt>
+            Сумма выплаты
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Summ)
+        </dd>
+        <dt>
+            Отметка о выплате
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PaymentMark)
+        </dd>
+        <dt>
+            Отметка об окончании
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndMark)
+        </dd>
+        <dt>
+            Клиент
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Client.ClientName)
+        </dd>
+        <dt>
+            Сотрудник
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Staff.StaffName)
+        </dd>
+        <dt>
+            Вид полиса
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Type.PolicyName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Изменить</a> |
+    <a asp-action="Index">Вернуться назад</a>
+</div>

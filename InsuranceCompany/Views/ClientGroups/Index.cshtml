@@ -1,0 +1,86 @@
+﻿@using InsuranceCompany.ViewModels
+@model IndexViewModel
+@addTagHelper "*, InsuranceCompany"
+
+@{
+    ViewData["Title"] = "Группы клиентов ";
+}
+
+<h2>Группы клиентов </h2>
+
+<p>
+  @if (User.Identity.IsAuthenticated)
+  {
+      if (User.IsInRole("admin"))
+      {
+        <a asp-action="Create">Добавить новую запись</a>
+      }
+      else
+      {
+      }
+  }
+  else
+  {
+  }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.GroupName)">Наименование</a>                    
+                </th>
+                <th>
+                    Описание
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ClientGroups) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupDescription)
+            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+
+                {
+                    <td><a href="~/ClientGroups/Delete/@item.Id">Удалить</a></td>
+                            <td><a href="~/ClientGroups/Edit/@item.Id">Изменить</a></td>
+                }
+                else
+                { }
+            }
+            else
+            { }
+
+
+        </tr>
+}
+    </tbody>
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+        asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+        asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

@@ -1,0 +1,115 @@
+﻿@using InsuranceCompany.ViewModels
+@model IndexViewModel
+@addTagHelper "*, InsuranceCompany"
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Риски</h2>
+<div class="container">
+    <form method="get" role="form" class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label">Наименование: </label>
+            @Html.TextBox("RiskName", Model.FilterViewModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+            <label class="control-label">Описание: </label>
+            @Html.TextBox("RiskDescription", Model.FilterViewModel.SelectedDescription, htmlAttributes: new { @class = "form-control" })
+            <br>
+            <input type="submit" value="Отфильтровать" class="btn btn-default" />
+        </div>
+    </form>
+</div>
+
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("admin"))
+        {
+            <a asp-action="Create">Добавить новую запись</a>
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.PolicyName)"
+                   asp-route-Name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-Description="@(Model.FilterViewModel.SelectedDescription)">Наименование</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.PolicyDescription)"
+                   asp-route-Name="@(Model.FilterViewModel.SelectedName)"
+                   asp-route-Description="@(Model.FilterViewModel.SelectedDescription)">Описание</a>
+            </th>
+                <th>
+                    Средняя вероятность
+                </th>
+            <th>
+                Вид полиса
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Risks) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RiskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RiskDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AverageProbability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.PolicyName)
+            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+
+                {
+                    <td><a href="~/Risks/Delete/@item.Id">Удалить</a></td>
+                    <td><a href="~/Risks/Edit/@item.Id">Изменить</a></td>
+                }
+                else
+                { }
+            }
+            else
+            { }
+        </tr>
+}
+    </tbody>
+</table>
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-Name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-Description="@(Model.FilterViewModel.SelectedDescription)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-Name="@(Model.FilterViewModel.SelectedName)"
+       asp-route-Description="@(Model.FilterViewModel.SelectedDescription)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

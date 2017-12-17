@@ -1,0 +1,93 @@
+﻿@using InsuranceCompany.ViewModels
+@model IndexViewModel
+@addTagHelper "*, InsuranceCompany"
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Полисы</h2>
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("admin"))
+        {
+            <a asp-action="Create">Добавить новую запись</a>
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.PolicyNumber)">Номер полиса</a>
+            </th>
+            <th>
+                ФИО Клиента
+            </th>
+            <th>
+                Тип полиса
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Policys)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PolicyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Client.ClientName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type.PolicyName)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> 
+                </td>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("admin"))
+
+                    {
+                        <td><a href="~/Policys/Delete/@item.Id">Удалить</a></td>
+                        <td><a href="~/Policys/Edit/@item.Id">Изменить</a></td>
+                    }
+                    else
+                    { }
+                }
+                else
+                { }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"       
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

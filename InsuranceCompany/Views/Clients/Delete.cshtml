@@ -1,0 +1,61 @@
+﻿@model InsuranceCompany.Models.Client
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Удалить</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            ФИО Клиента
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+        <dt>
+            Дата рождения
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientDateBirth)
+        </dd>
+        <dt>
+            Пол
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientSex)
+        </dd>
+        <dt>
+            Адрес
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientAddress)
+        </dd>
+        <dt>
+            Телефон
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientPhone)
+        </dd>
+        <dt>
+            Паспорт
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClientPassport)
+        </dd>
+        <dt>
+            Группа
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Group.GroupName)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Вернуться назад</a>
+    </form>
+</div>

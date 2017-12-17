@@ -1,0 +1,31 @@
+﻿@model InsuranceCompany.Models.ClientGroups
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Удалить</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Наименование
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+        <dt>
+            Описание
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GroupDescription)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Удалить" class="btn btn-default" /> |
+        <a asp-action="Index">Вернуться назад</a>
+    </form>
+</div>

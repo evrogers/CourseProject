@@ -1,0 +1,124 @@
+﻿@using InsuranceCompany.ViewModels
+@model IndexViewModel
+@addTagHelper "*, InsuranceCompany"
+
+@{
+    ViewData["Title"] = "Клиенты";
+}
+
+<h2>Клиенты</h2>
+
+<form method="get">
+    <div class="form-inline">
+        <label class="control-label">ФИО Клиента: </label>
+        @Html.TextBox("ClientName", Model.FilterViewModel.SelectedClientName, htmlAttributes: new { @class = "form-control" })
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
+
+<p>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("admin"))
+        {
+            <a asp-action="Create">Добавить новую запись</a>
+        }
+        else
+        {
+        }
+    }
+    else
+    {
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@(Model.SortViewModel.ClientName)">ФИО Клиента</a>
+            </th>
+                <th>
+                    Дата Рождения
+                </th>
+                <th>
+                    Пол
+                </th>
+                <th>
+                    Адрес
+                </th>
+                <th>
+                    Телефон
+                </th>
+                <th>
+                    Паспорт
+                </th>
+            <th>
+                Группа
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Client) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientDateBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientSex)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientPassport)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Group.GroupName)
+            </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("admin"))
+
+                {
+                    <td><a href="~/Clients/Delete/@item.Id">Удалить</a></td>
+                    <td><a href="~/Clients/Edit/@item.Id">Изменить</a></td>
+                }
+                else
+                { }
+            }
+            else
+            { }
+        </tr>
+}
+    </tbody>
+</table>
+
+@if (Model.PageViewModel.HasPreviousPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+       asp-route-ClientName="@(Model.FilterViewModel.SelectedClientName)"
+        asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (Model.PageViewModel.HasNextPage)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+       asp-route-ClientName="@(Model.FilterViewModel.SelectedClientName)"
+       asp-route-sortOrder="@(Model.SortViewModel.Current)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}
